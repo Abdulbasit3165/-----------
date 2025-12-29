@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="ABC123XYZ" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StyleNest | Online Clothing Store</title>
+  <meta name="description" content="StyleNest is an online clothing store offering trendy and affordable fashion for men, women, and kids. Shop hoodies, trousers, t-shirts, and kids wear with a modern user-friendly design.">
+  <meta name="keywords" content="StyleNest, online clothing store, fashion, men clothing, women clothing, kids clothing, hoodies, trousers">
+  <meta property="og:title" content="StyleNest | Online Clothing Store">
+  <meta property="og:description" content="Discover trendy fashion for men, women, and kids at StyleNest.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23ffc107'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='%23111'>SN</text></svg>">
+  <style>
+    body {margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f8f9fa;color:#333;line-height:1.6;}
+    header {background:#111;color:white;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;}
+    .brand {display:flex;align-items:center;gap:1rem;}
+    .logo {width:55px;height:55px;border-radius:50%;background:linear-gradient(135deg,#ffc107,#ff9800);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.4rem;color:#111;}
+    header h1 {margin:0;font-size:2.3rem;letter-spacing:3px;}
+    nav a {color:white;margin-left:1.5rem;text-decoration:none;font-weight:500;}
+    nav a:hover {color:#ffc107;}
+    .cart-badge{background:#ffc107;color:#111;border-radius:50%;padding:2px 8px;font-size:0.8rem;margin-left:4px;display:inline-block;transition:transform 0.3s ease;}
+    .cart-badge.animate{transform:scale(1.4);}    
+    .hero {padding:4rem 2rem;background:url('https://images.unsplash.com/photo-1521334884684-d80222895322') center/cover no-repeat;color:white;text-align:center;}
+    .hero h2 {font-size:3rem;margin-bottom:1rem;}
+    .btn {display:inline-block;margin-top:1rem;padding:0.7rem 1.6rem;background:#ffc107;color:#111;border-radius:30px;text-decoration:none;font-weight:bold;cursor:pointer;}
+    .section {padding:3rem 2rem;max-width:1200px;margin:auto;}
+    .products {display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;}
+    .product {background:white;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.1);overflow:hidden;}
+    .product img {width:100%;height:260px;object-fit:cover;}
+    .product-content {padding:1.2rem;}
+    .price {font-weight:bold;color:#198754;}
+    .reviews{margin-top:1rem;background:#f1f1f1;padding:1rem;border-radius:10px;}
+    .review{border-bottom:1px solid #ccc;padding:0.5rem 0;font-size:0.9rem;}
+    footer {background:#111;color:white;text-align:center;padding:2rem;margin-top:3rem;}
+    .overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;z-index:150;}
+    .cart-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:2rem;border-radius:12px;display:none;z-index:200;width:90%;max-width:400px;}
+    .toast{position:fixed;bottom:20px;right:20px;background:#198754;color:white;padding:0.8rem 1.2rem;border-radius:6px;display:none;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">SN</div><h1>StyleNest</h1></div>
+  <nav>
+    <a href="#products">Products</a>
+    <a href="#categories">Categories</a>
+    <a href="#" id="viewCart">Cart <span id="cartCount" class="cart-badge">0</span></a>
+  </nav>
+</header>
+<section class="hero">
+  <h1 style="display:none">StyleNest Online Clothing Store</h1><h2>Wear Your Style With Confidence</h2><a href="#products" class="btn">Shop Now</a></section>
+<section class="section" id="products"><h3>Featured Products</h3><div class="products" id="productList"></div></section>
+<section class="section" id="categories"><h3>Shop by Category</h3><div class="products"><div class="product"><img src="https://images.unsplash.com/photo-1520975916090-3105956dac38"><h4 style="text-align:center">Men</h4></div><div class="product"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b"><h4 style="text-align:center">Women</h4></div><div class="product"><img src="https://images.unsplash.com/photo-1503919545889-aef636e10ad4"><h4 style="text-align:center">Kids</h4></div></div></section>
+<footer><p><strong>Founders:</strong> Abdulbasit Hassan & Co. (Umar Farouk)</p><p>© 2025 StyleNest</p></footer>
+<div class="overlay" id="overlay"></div>
+<div class="cart-modal" id="cartModal"><h3>Your Cart</h3><div id="cartItems"></div><p><strong>Total:</strong> $<span id="cartTotal">0</span></p><button class="btn" onclick="closeCart()">Close</button></div>
+<div class="toast" id="toast"></div>
+<script>
+const products=[
+  {id:1,name:'Casual T-Shirt',price:20,img:'https://images.unsplash.com/photo-1520975916090-3105956dac38'},
+  {id:2,name:'Denim Jacket',price:45,img:'https://images.unsplash.com/photo-1512436991641-6745cdb1723f'},
+  {id:3,name:'Classic Trouser',price:35,img:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf'},
+  {id:4,name:'Warm Hoodie',price:30,img:'https://images.unsplash.com/photo-1541099649105-f69ad21f3246'},
+  {id:5,name:'Kids Casual Wear',price:18,img:'https://images.unsplash.com/photo-1503919545889-aef636e10ad4'}
+];
+let cart=JSON.parse(localStorage.getItem('cart'))||[];
+function renderProducts(){const list=document.getElementById('productList');products.forEach(p=>{const d=document.createElement('div');d.className='product';d.innerHTML=`<img src="${p.img}"><div class="product-content"><h4>${p.name}</h4><p class="price">$${p.price}</p><button class="btn" onclick="addToCart('${p.name}',${p.price},'${p.img}')">Add to Cart</button><div class="reviews" id="reviews-${p.id}"></div><textarea id="reviewText-${p.id}" placeholder="Write a review"></textarea><select id="rating-${p.id}"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><button class="btn" onclick="postReview(${p.id})">Post Review</button></div>`;list.appendChild(d);loadReviews(p.id);});}
+function addToCart(name,price,image){cart.push({name,price,image});localStorage.setItem('cart',JSON.stringify(cart));updateCart();const badge=document.getElementById('cartCount');badge.classList.add('animate');setTimeout(()=>badge.classList.remove('animate'),300);toast('Item added');}
+function updateCart(){const box=document.getElementById('cartItems');const count=document.getElementById('cartCount');const totalBox=document.getElementById('cartTotal');box.innerHTML='';count.textContent=cart.length;let total=0;cart.forEach((i,idx)=>{total+=Number(i.price);box.innerHTML+=`<div style="display:flex;gap:0.5rem;align-items:center"><img src="${i.image}" width="50"> ${i.name} - $${i.price} <button onclick="removeFromCart(${idx})">❌</button></div>`;});totalBox.textContent=total;}
+function removeFromCart(i){cart.splice(i,1);localStorage.setItem('cart',JSON.stringify(cart));updateCart();}
+function postReview(id){const t=document.getElementById(`reviewText-${id}`).value;const r=document.getElementById(`rating-${id}`).value;if(!t)return alert('Write a review');const data=JSON.parse(localStorage.getItem('reviews-'+id))||[];data.push({t,r});localStorage.setItem('reviews-'+id,JSON.stringify(data));document.getElementById(`reviewText-${id}`).value='';loadReviews(id);}
+function loadReviews(id){const box=document.getElementById(`reviews-${id}`);const data=JSON.parse(localStorage.getItem('reviews-'+id))||[];box.innerHTML='';data.forEach((x,i)=>{box.innerHTML+=`<div class="review">⭐${x.r} ${x.t} <button onclick="deleteReview(${id},${i})">Delete</button></div>`});}
+function deleteReview(id,i){const d=JSON.parse(localStorage.getItem('reviews-'+id));d.splice(i,1);localStorage.setItem('reviews-'+id,JSON.stringify(d));loadReviews(id);}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2000);}
+document.getElementById('viewCart').onclick=()=>{document.getElementById('cartModal').style.display='block';document.getElementById('overlay').style.display='block';};
+function closeCart(){document.getElementById('cartModal').style.display='none';document.getElementById('overlay').style.display='none';}
+document.addEventListener('DOMContentLoaded',()=>{renderProducts();updateCart();});
+</script>
+</body>
+</html>
